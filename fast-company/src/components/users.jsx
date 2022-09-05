@@ -5,15 +5,15 @@ import UsersData from "./usersData";
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
 
-  const formatSumUsersMessage = () => {
-    if (users.length === 0) {
+  const formatSumUsersMessage = (n) => {
+    if (n === 0) {
       return 'Никто с тобой не тусанет';
-    } else if (users.length === 1) {
-      return  users.length + ' человек тусанет с тобой сегодня';
-    } else if (users.length >= 2 && users.length <= 4 ) {
-      return  users.length + ' человека тусанут с тобой сегодня';
-    } else if (users.length > 4 ) {
-      return  users.length + ' человек тусанут с тобой сегодня';
+    } else if (String(n).endsWith('1')) {
+      return  n + ' человек тусанет с тобой сегодня';
+    } else if ((n < 10 || n > 20) && (String(n).endsWith('2') || String(n).endsWith('3') || String(n).endsWith('4'))) {
+      return  n + ' человека тусанет с тобой сегодня';
+    } else {
+      return  n + ' человек тусанет с тобой сегодня';
     }
   }
 
@@ -25,7 +25,7 @@ const Users = () => {
         <span className={(users.length === 0) ? 
           'badge bg-danger' : 
           'badge bg-primary'}>
-          {formatSumUsersMessage()}
+          {formatSumUsersMessage(users.length)}
         </span>
       </h1>
 
