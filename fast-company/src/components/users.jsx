@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import api from "../api";
+import UsersData from "./usersData";
 
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
@@ -14,29 +15,6 @@ const Users = () => {
     } else if (users.length > 4 ) {
       return  users.length + ' человек тусанут с тобой сегодня';
     }
-  }
-
-  const UsersData = () => {
-    return (
-      users.map(user => (
-        <tr key={user._id}>
-          <td>{user.name}</td>
-          <td>
-            {user.qualities.map(qualitie => 
-            (<span 
-            key={qualitie._id} 
-            className={`badge m-1 bg-${qualitie.color}`}>
-            {qualitie.name}
-            </span>))}
-          </td>
-          <td>{user.profession.name}</td>
-          <td>{user.completedMeetings}</td>
-          <td>{user.rate}/5</td>
-          <td><button className="btn btn-danger btn-sm" onClick={() => handlerUserDelete(user)}>Delete</button></td>
-        </tr>
-        )
-      )     
-    )
   }
 
   const handlerUserDelete = (id) => setUsers(prevState => prevState.filter(user => user !== id))
@@ -67,7 +45,7 @@ const Users = () => {
           </tr>
         </thead>
         <tbody>
-          <UsersData />
+          <UsersData users={users} deleteUser={handlerUserDelete} />
         </tbody>
       </table>
       }
