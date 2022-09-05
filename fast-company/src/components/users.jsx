@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import api from "../api";
 
 const Users = () => {
-  const users = api.users.fetchAll();
+  const [users, setUsers] = useState(api.users.fetchAll());
 
   const formatSumUsersMessage = () => {
     if (users.length === 0) {
@@ -14,7 +14,7 @@ const Users = () => {
     } else if (users.length > 4 ) {
       return  users.length + ' человек тусанут с тобой сегодня';
     }
-  } 
+  }
 
   const UsersData = () => {
     return (
@@ -32,16 +32,25 @@ const Users = () => {
           <td>{user.profession.name}</td>
           <td>{user.completedMeetings}</td>
           <td>{user.rate}/5</td>
-          <td><button className="btn btn-danger btn-sm">Delete</button></td>
+          <td><button className="btn btn-danger btn-sm" onClick={() => handlerUserDelete(user)}>Delete</button></td>
         </tr>
         )
       )     
     )
   }
 
+  const handlerUserDelete = (id) => setUsers(prevState => prevState.filter(user => user !== id))
+
   return (
     <>
-      <h1><span className={(users.length === 0) ? 'badge bg-danger' : 'badge bg-primary'}>{formatSumUsersMessage()}</span></h1>
+      <h1>
+        <span className={(users.length === 0) ? 
+        'badge bg-danger' : 
+        'badge bg-primary'}>
+        {formatSumUsersMessage()}
+        </span>
+      </h1>
+
       {(!users.length) ? 
       
       null : 
