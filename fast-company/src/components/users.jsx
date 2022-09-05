@@ -5,29 +5,35 @@ import UsersData from "./usersData";
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
 
-  const formatSumUsersMessage = (n) => {
-    if (n === 0) {
-      return 'Никто с тобой не тусанет';
-    } else if (String(n).endsWith('1')) {
-      return  n + ' человек тусанет с тобой сегодня';
-    } else if ((n < 10 || n > 20) && (String(n).endsWith('2') || String(n).endsWith('3') || String(n).endsWith('4'))) {
-      return  n + ' человека тусанет с тобой сегодня';
-    } else {
-      return  n + ' человек тусанет с тобой сегодня';
+  const renderSumUsersMessage = () => {
+    const setMessage = (n) => {
+      if (n === 0) {
+        return 'Никто с тобой не тусанет';
+      } else if (String(n).endsWith('1')) {
+        return n + ' человек тусанет с тобой сегодня';
+      } else if ((n < 10 || n > 20) && (String(n).endsWith('2') || String(n).endsWith('3') || String(n).endsWith('4'))) {
+        return n + ' человека тусанет с тобой сегодня';
+      } else {
+        return n + ' человек тусанет с тобой сегодня';
+      }
     }
+
+    return (
+      <h1>
+        <span className={(users.length === 0) ? 
+          'badge bg-danger' : 
+          'badge bg-primary'}>
+          {setMessage(users.length)}
+        </span>
+      </h1>
+    )
   }
 
   const handlerUserDelete = (id) => setUsers(prevState => prevState.filter(user => user !== id))
 
   return (
     <>
-      <h1>
-        <span className={(users.length === 0) ? 
-          'badge bg-danger' : 
-          'badge bg-primary'}>
-          {formatSumUsersMessage(users.length)}
-        </span>
-      </h1>
+      {renderSumUsersMessage(users.length)}
 
       {(!users.length) ? 
       
