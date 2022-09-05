@@ -23,9 +23,9 @@ const Users = () => {
     <>
       <h1>
         <span className={(users.length === 0) ? 
-        'badge bg-danger' : 
-        'badge bg-primary'}>
-        {formatSumUsersMessage()}
+          'badge bg-danger' : 
+          'badge bg-primary'}>
+          {formatSumUsersMessage()}
         </span>
       </h1>
 

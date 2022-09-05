@@ -6,11 +6,11 @@ const UsersData = (probs) => {
         <td>{user.name}</td>
         <td>
           {user.qualities.map(qualitie => 
-          (<span 
-          key={qualitie._id} 
-          className={`badge m-1 bg-${qualitie.color}`}>
-          {qualitie.name}
-          </span>))}
+            (<span 
+              key={qualitie._id} 
+              className={`badge m-1 bg-${qualitie.color}`}>
+              {qualitie.name}
+            </span>))}
         </td>
         <td>{user.profession.name}</td>
         <td>{user.completedMeetings}</td>
