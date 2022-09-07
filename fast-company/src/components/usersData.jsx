@@ -1,7 +1,7 @@
 import React from "react";
-const UsersData = (probs) => {
+const UsersData = (props) => {
   return (
-    probs.users.map(user => (
+    props.users.map(user => (
       <tr key={user._id}>
         <td>{user.name}</td>
         <td>
@@ -15,7 +15,7 @@ const UsersData = (probs) => {
         <td>{user.profession.name}</td>
         <td>{user.completedMeetings}</td>
         <td>{user.rate}/5</td>
-        <td><button className="btn btn-danger btn-sm" onClick={() => probs.deleteUser(user)}>Delete</button></td>
+        <td><button className="btn btn-danger btn-sm" onClick={() => props.handleDelete(user._id)}>Удалить</button></td>
       </tr>
       )
     )     
