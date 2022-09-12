@@ -23,6 +23,6 @@ const SearchStatus = (props) => {
         </span>
       </h2>
       )
-}
+};
 
 export default SearchStatus;
