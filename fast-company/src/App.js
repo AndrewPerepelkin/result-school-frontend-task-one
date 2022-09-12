@@ -9,7 +9,13 @@ const App = () => {
   const handleDelete = (id) => setUsers(prevState => prevState.filter(user => user._id !== id))
 
   const handleToggelBookMark = (id) => {
-    console.log('handleToggelBookMark');
+    const updateUsers = users.map(user => {
+      if (user._id === id) {
+        user.bookmark = !user.bookmark;
+      }
+      return user;
+    })
+    setUsers(updateUsers);
   }
 
   return (

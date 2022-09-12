@@ -15,11 +15,16 @@ const Users = (props) => {
             <th scope="col">Профессия</th>
             <th scope="col">Встретился, раз</th>
             <th scope="col">Оценка</th>
-            <th scope="col"></th>
+            <th scope="col">Избранное</th>
+            <th />
           </tr>
         </thead>
         <tbody>
-          <User users={users} onDelete={props.onDelete} />
+          <User 
+            users={users} 
+            onDelete={props.onDelete}
+            onToggelBookMark={props.onToggelBookMark}
+          />
         </tbody>
       </table>
       }
