@@ -4,7 +4,7 @@ const BookMark = (props) => {
   return (
     <button onClick={() => onToggelBookMark(id)}>
       {status ? 
-        <i className="bi bi-bookmark-check-fill"></i> :
+        <i className='bi bi-bookmark-check-fill'></i> :
         <i className='bi bi-bookmark'></i>
       }
     </button>

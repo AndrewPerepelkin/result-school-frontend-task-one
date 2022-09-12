@@ -15,11 +15,11 @@ const User = (props) => {
           onToggelBookMark={props.onToggelBookMark}
           id={user._id} />
         </td>
-        <td><button className="btn btn-danger btn-sm" onClick={() => props.onDelete(user._id)}>Удалить</button></td>
+        <td><button className='btn btn-danger btn-sm' onClick={() => props.onDelete(user._id)}>Удалить</button></td>
       </tr>
       )
     )     
   )
-}
+};
 
 export default User;
