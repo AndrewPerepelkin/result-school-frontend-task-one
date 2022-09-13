@@ -1,8 +1,7 @@
 import React from 'react';
 import User from './user';
 
-const Users = (props) => {
-  const {users} = props;
+const Users = ({users, onDelete, onToggelBookMark}) => {
   return (
     <>
       {!!users.length &&       
@@ -21,8 +20,8 @@ const Users = (props) => {
         <tbody>
           <User 
             users={users} 
-            onDelete={props.onDelete}
-            onToggelBookMark={props.onToggelBookMark}
+            onDelete={onDelete}
+            onToggelBookMark={onToggelBookMark}
           />
         </tbody>
       </table>

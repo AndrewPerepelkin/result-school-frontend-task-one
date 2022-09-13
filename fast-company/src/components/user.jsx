@@ -1,9 +1,9 @@
 import React from 'react';
 import Qualitie from './qualitie';
 import BookMark from './bookmark';
-const User = (props) => {
+const User = ({users, onToggelBookMark, onDelete}) => {
   return (
-    props.users.map(user => (
+    users.map(user => (
       <tr key={user._id}>
         <td>{user.name}</td>
         <td><Qualitie qualities={user.qualities} /></td>
@@ -12,10 +12,10 @@ const User = (props) => {
         <td>{user.rate}/5</td>
         <td><BookMark 
           status={user.bookmark} 
-          onToggelBookMark={props.onToggelBookMark}
+          onToggelBookMark={onToggelBookMark}
           id={user._id} />
         </td>
-        <td><button className='btn btn-danger btn-sm' onClick={() => props.onDelete(user._id)}>Удалить</button></td>
+        <td><button className='btn btn-danger btn-sm' onClick={() => onDelete(user._id)}>Удалить</button></td>
       </tr>
       )
     )     

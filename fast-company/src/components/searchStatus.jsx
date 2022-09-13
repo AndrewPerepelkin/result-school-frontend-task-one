@@ -1,7 +1,6 @@
 import React from 'react';
 
-const SearchStatus = (props) => {
-  const {usersNumber} = props;
+const SearchStatus = ({usersNumber}) => {
   const renderPhrase = (n) => {
     if (n === 0) {
       return 'Никто с тобой не тусанет';
