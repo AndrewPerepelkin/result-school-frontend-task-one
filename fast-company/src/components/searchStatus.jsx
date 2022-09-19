@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 const SearchStatus = ({ usersNumber }) => {
   const renderPhrase = (n) => {
     if (n === 0) {
@@ -27,6 +27,10 @@ const SearchStatus = ({ usersNumber }) => {
       </span>
     </h2>
   );
+};
+
+SearchStatus.propTypes = {
+  usersNumber: PropTypes.number.isRequired
 };
 
 export default SearchStatus;

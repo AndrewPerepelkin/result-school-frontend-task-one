@@ -12,6 +12,7 @@ module.exports = {
   plugins: ['react'],
   rules: {
     semi: [2, 'always'],
-    'space-before-function-paren': ['error', 'never']
+    'space-before-function-paren': ['error', 'never'],
+    'multiline-ternary': ['error', 'never']
   }
 };
