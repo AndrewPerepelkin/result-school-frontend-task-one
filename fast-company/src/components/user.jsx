@@ -1,6 +1,6 @@
-import React from "react";
-import Qualitie from "./qualitie";
-import BookMark from "./bookmark";
+import React from 'react';
+import Qualitie from './qualitie';
+import BookMark from './bookmark';
 const User = ({
   _id,
   name,
@@ -10,14 +10,17 @@ const User = ({
   rate,
   onDelete,
   bookmark,
-  onToggleBookMark,
+  onToggleBookMark
 }) => {
   return (
     <tr>
       <td>{name}</td>
       <td>
         {qualities.map((q) => (
-          <Qualitie key={q._id} {...q} />
+          <Qualitie
+            key={q._id}
+            {...q}
+          />
         ))}
       </td>
       <td>{profession.name}</td>
@@ -31,7 +34,10 @@ const User = ({
         />
       </td>
       <td>
-        <button className="btn btn-danger btn-sm" onClick={() => onDelete(_id)}>
+        <button
+          className='btn btn-danger btn-sm'
+          onClick={() => onDelete(_id)}
+        >
           Удалить
         </button>
       </td>
