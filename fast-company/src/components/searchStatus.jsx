@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const SearchStatus = ({ usersNumber }) => {
+const SearchStatus = ({ length }) => {
   const renderPhrase = (n) => {
     if (n === 0) {
       return 'Никто с тобой не тусанет';
@@ -20,17 +20,15 @@ const SearchStatus = ({ usersNumber }) => {
 
   return (
     <h2>
-      <span
-        className={usersNumber === 0 ? 'badge bg-danger' : 'badge bg-primary'}
-      >
-        {renderPhrase(usersNumber)}
+      <span className={length === 0 ? 'badge bg-danger' : 'badge bg-primary'}>
+        {renderPhrase(length)}
       </span>
     </h2>
   );
 };
 
 SearchStatus.propTypes = {
-  usersNumber: PropTypes.number.isRequired
+  length: PropTypes.number.isRequired
 };
 
 export default SearchStatus;
