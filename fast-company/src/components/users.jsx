@@ -14,7 +14,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const [sortBy, setSortBy] = useState({ path: 'name', order: 'acs' });
+  const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
 
   const handleProfessionSelect = (item) => setSelectedProf(item);
   const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
