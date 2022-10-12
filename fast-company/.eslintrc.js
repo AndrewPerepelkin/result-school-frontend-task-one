@@ -14,8 +14,9 @@ module.exports = {
     semi: [2, 'always'],
     'space-before-function-paren': [
       'error',
-      { anonymous: 'always', named: 'never' }
+      {anonymous: 'always', named: 'never'}
     ],
-    'multiline-ternary': ['error', 'always-multiline']
+    'multiline-ternary': 0,
+    'object-curly-spacing': ['error', 'never']
   }
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Qualitie from './qualitie';
 
-const QualitiesList = ({ qualities }) => {
+const QualitiesList = ({qualities}) => {
   return (
     <>
       {qualities.map((q) => (

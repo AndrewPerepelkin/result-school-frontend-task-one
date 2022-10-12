@@ -13,14 +13,14 @@ const UsersTable = ({
   ...rest
 }) => {
   const columns = {
-    name: { path: 'name', name: 'Имя', link: true },
+    name: {path: 'name', name: 'Имя', link: true},
     qualities: {
       name: 'Качества',
       component: (user) => <QualitiesList qualities={user.qualities} />
     },
-    professions: { path: 'profession.name', name: 'Профессия' },
-    completedMeetings: { path: 'completedMeetings', name: 'Встретился, раз' },
-    rate: { path: 'rate', name: 'Оценка' },
+    professions: {path: 'profession.name', name: 'Профессия'},
+    completedMeetings: {path: 'completedMeetings', name: 'Встретился, раз'},
+    rate: {path: 'rate', name: 'Оценка'},
     bookmark: {
       path: 'bookmark',
       name: 'Избранное',

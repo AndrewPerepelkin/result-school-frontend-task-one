@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const SearchStatus = ({ length }) => {
+const SearchStatus = ({length}) => {
   const renderPhrase = (n) => {
     if (n === 0) {
       return 'Никто с тобой не тусанет';
