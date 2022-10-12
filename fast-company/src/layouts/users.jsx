@@ -18,7 +18,8 @@ const Users = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
   const { userId } = useParams();
-  console.log(userId, useParams());
+  const [user, setUser] = useState();
+  api.users.getById(userId).then((data) => setUser(data));
 
   const handleProfessionSelect = (item) => setSelectedProf(item);
   const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
@@ -57,7 +58,7 @@ const Users = () => {
       <>
         {userId
           ? (<div className='m-2'>
-              <UserPage id={userId} />
+              <UserPage id={userId} user={user} />
             </div>)
           : (<div className='d-flex'>
             {professions && (

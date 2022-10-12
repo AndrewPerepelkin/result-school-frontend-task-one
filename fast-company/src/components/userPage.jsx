@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import api from '../api';
 import PropTypes from 'prop-types';
 import QualitiesList from './qualitiesList';
 
-const UserPage = ({ id }) => {
-  const [user, setUser] = useState();
+const UserPage = ({ user }) => {
   const history = useHistory();
+  const handleReturn = () => history.push('/users');
 
-  api.users.getById(id).then((data) => setUser(data)); // refactor!
-  const handleReturn = () => {
-    history.push('/users');
-  };
   return (
     <>
       {user
@@ -36,7 +31,7 @@ const UserPage = ({ id }) => {
 };
 
 UserPage.propTypes = {
-  id: PropTypes.string.isRequired
+  user: PropTypes.object.isRequired
 };
 
 export default UserPage;
