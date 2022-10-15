@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
+import api from '../api';
 import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import QualitiesList from './qualitiesList';
 
-const UserPage = ({user}) => {
+const UserPage = ({id}) => {
+  const [user, setUser] = useState();
+  api.users.getById(id).then((data) => setUser(data));
+
   const history = useHistory();
   const handleReturn = () => history.push('/users');
 
   return (
-    <>
+    <div className='m-3'>
       {user ? (
         <>
           <h2>{user.name}</h2>
@@ -18,7 +22,7 @@ const UserPage = ({user}) => {
           <div>Оценка: {user.rate}</div>
         </>
       ) : (
-        <div>Loading...</div>
+        <div className='m-3'>Loading...</div>
       )}
       <button
         className='btn btn-secondary mt-2'
@@ -26,12 +30,12 @@ const UserPage = ({user}) => {
       >
         Все пользователи
       </button>
-    </>
+    </div>
   );
 };
 
 UserPage.propTypes = {
-  user: PropTypes.object
+  id: PropTypes.string.isRequired
 };
 
 export default UserPage;
