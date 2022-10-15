@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import NavBar from './components/navBar';
 import Users from './layouts/users';
 import Login from './layouts/login';
@@ -21,7 +21,9 @@ const App = () => {
         <Route
           path='/'
           component={Main}
+          exact
         />
+        <Redirect to='/' />
       </Switch>
     </>
   );
