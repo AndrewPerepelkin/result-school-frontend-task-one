@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
-const TextFied = ({label, type, name, value, onChange, error}) => {
+const TextField = ({
+  label,
+  type,
+  name,
+  value,
+  placeholder,
+  onChange,
+  onInput,
+  onFocus,
+  error
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const getInputClasses = () => {
     return 'form-control' + (error ? ' is-invalid' : '');
@@ -18,7 +28,10 @@ const TextFied = ({label, type, name, value, onChange, error}) => {
           id={name}
           name={name}
           value={value}
+          placeholder={placeholder}
           onChange={onChange}
+          onInput={onInput}
+          onFocus={onFocus}
           className={getInputClasses()}
         />
         {type === 'password' && (
@@ -37,17 +50,20 @@ const TextFied = ({label, type, name, value, onChange, error}) => {
   );
 };
 
-TextFied.defaultProps = {
+TextField.defaultProps = {
   type: 'text'
 };
 
-TextFied.propTypes = {
+TextField.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  onInput: PropTypes.func,
+  onFocus: PropTypes.func,
   error: PropTypes.string
 };
 
-export default TextFied;
+export default TextField;
