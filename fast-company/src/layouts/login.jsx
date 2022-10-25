@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import TextFied from '../components/textFied';
+import TextField from '../components/textField';
 import {validator} from '../utils/validator';
 
 const Login = () => {
@@ -61,14 +61,14 @@ const Login = () => {
         <div className='col-md-6 offset-md-3 shadow p-4'>
           <h3 className='text-center mb-4'>Вход</h3>
           <form onSubmit={handleSubmit}>
-            <TextFied
+            <TextField
               label={'Электронная почта'}
               name={'email'}
               value={data.email}
               onChange={handleChange}
               error={errors.email}
             />
-            <TextFied
+            <TextField
               label={'Пароль'}
               type={'password'}
               name={'password'}
