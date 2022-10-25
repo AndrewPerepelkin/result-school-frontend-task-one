@@ -16,8 +16,8 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValidate = validate();
-    if (!isValidate) return;
+    const isValid = validate();
+    if (!isValid) return;
     console.log(data);
   };
 
@@ -25,11 +25,24 @@ const Login = () => {
     email: {
       isRequired: {
         message: 'Это поле обязательно для заполнения'
+      },
+      isEmail: {
+        message: 'Введен некорректный адрес электронной почты'
       }
     },
     password: {
       isRequired: {
         message: 'Это поле обязательно для заполнения'
+      },
+      containsCapitalCharacter: {
+        message: 'Пароль должен сождержать хатя бы одну заглавную букву'
+      },
+      containsDigit: {
+        message: 'Пароль должен сождержать хатя бы одну цифру'
+      },
+      min: {
+        message: 'Пароль должен состоять минимум из 8 символов',
+        value: 8
       }
     }
   };
@@ -39,6 +52,8 @@ const Login = () => {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+  const isValid = Object.keys(errors).length === 0;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -57,7 +72,12 @@ const Login = () => {
         onChange={handleChange}
         error={errors.password}
       />
-      <button type='submit'>Submit</button>
+      <button
+        type='submit'
+        disabled={!isValid}
+      >
+        Submit
+      </button>
     </form>
   );
 };
