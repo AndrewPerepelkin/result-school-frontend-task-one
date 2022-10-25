@@ -12,7 +12,7 @@ const TextFied = ({label, type, name, value, onChange, error}) => {
         value={value}
         onChange={onChange}
       />
-      {error}
+      {error && <p>{error}</p>}
     </div>
   );
 };
