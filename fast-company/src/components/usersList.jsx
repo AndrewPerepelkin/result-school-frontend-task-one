@@ -38,10 +38,12 @@ const UsersList = () => {
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
-  useEffect(() => setCurrentPage(1), [selectedProf]);
-  useEffect(() => setSearchValue(''), [selectedProf]);
+  useEffect(() => {
+    setCurrentPage(1);
+    setSearchValue('');
+  }, [selectedProf]);
 
-  const handleToggleImputSearch = () => {
+  const handleToggleInputSearch = () => {
     setSelectedProf();
   };
 
@@ -88,7 +90,7 @@ const UsersList = () => {
               placeholder={'Поиск...'}
               value={searchValue}
               onInput={handleSearch}
-              onFocus={handleToggleImputSearch}
+              onFocus={handleToggleInputSearch}
             />
             {!!count && (
               <UsersTable
