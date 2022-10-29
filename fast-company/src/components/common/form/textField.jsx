@@ -21,7 +21,12 @@ const TextField = ({
   };
   return (
     <div className='mb-4'>
-      <label htmlFor={name}>{label}</label>
+      <label
+        htmlFor={name}
+        className='mb-2'
+      >
+        {label}
+      </label>
       <div className='input-group has-validation'>
         <input
           type={showPassword ? 'text' : type}

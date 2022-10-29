@@ -11,7 +11,7 @@ const App = () => {
       <NavBar />
       <Switch>
         <Route
-          path='/login'
+          path='/login/:type?'
           component={Login}
         />
         <Route
