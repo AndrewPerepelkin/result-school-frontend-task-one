@@ -18,7 +18,7 @@ const SelectField = ({
     !Array.isArray(options) && typeof options === 'object'
       ? Object.keys(options).map((optionName) => ({
           name: options[optionName].name,
-          value: options[optionName]._id
+          _id: options[optionName]._id
         }))
       : options;
   return (
@@ -31,7 +31,7 @@ const SelectField = ({
       </label>
       <select
         name={name}
-        id='validationCustom04'
+        id={id}
         className={getSelectClasses()}
         value={value}
         onChange={onChange}
@@ -39,14 +39,15 @@ const SelectField = ({
         <option
           disabled
           value=''
+          key={'123'}
         >
           {defaultOption}
         </option>
         {optionsArray &&
           optionsArray.map((option) => (
             <option
-              key={option.value}
-              value={option.value}
+              key={option._id}
+              value={option._id}
             >
               {option.name}
             </option>

@@ -3,9 +3,15 @@ import TextField from '../common/form/textField';
 import {validator} from '../../utils/validator';
 import api from '../../api/';
 import SelectField from '../common/form/selectField';
+import RadioField from '../common/form/radioField';
 
 const RegisterForm = () => {
-  const [data, setData] = useState({email: '', password: '', profession: ''});
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    profession: '',
+    sex: 'male'
+  });
   const [errors, setErrors] = useState({});
   const [professions, setProfessions] = useState();
 
@@ -93,10 +99,20 @@ const RegisterForm = () => {
         name='profession'
         id='validationCustom04'
         value={data.profession}
-        defaultOption='Выберете профессию...'
+        defaultOption='Выберите профессию...'
         onChange={handleChange}
         options={professions}
         error={errors.profession}
+      />
+      <RadioField
+        options={[
+          {name: 'Муж', value: 'male'},
+          {name: 'Жен', value: 'female'}
+        ]}
+        value={data.sex}
+        name='sex'
+        onChange={handleChange}
+        label='Укажите Ваш пол'
       />
       <button
         type='submit'
