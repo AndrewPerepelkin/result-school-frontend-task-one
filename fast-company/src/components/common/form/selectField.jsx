@@ -11,6 +11,9 @@ const SelectField = ({
   options,
   error
 }) => {
+  const handleChange = ({target}) => {
+    onChange({name: target.name, value: target.value});
+  };
   const getSelectClasses = () => {
     return 'form-select' + (error ? ' is-invalid' : ' mb-4');
   };
@@ -34,7 +37,7 @@ const SelectField = ({
         id={id}
         className={getSelectClasses()}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
       >
         <option
           disabled
