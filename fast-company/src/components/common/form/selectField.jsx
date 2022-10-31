@@ -27,14 +27,14 @@ const SelectField = ({
   return (
     <>
       <label
-        htmlFor={id}
+        htmlFor={name}
         className='form-label'
       >
         {label}
       </label>
       <select
         name={name}
-        id={id}
+        id={name}
         className={getSelectClasses()}
         value={value}
         onChange={handleChange}

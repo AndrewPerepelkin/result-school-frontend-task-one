@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import api from '../../../api';
 import {useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -6,7 +6,9 @@ import Qualities from '../../ui/qualities';
 
 const UserPage = ({id}) => {
   const [user, setUser] = useState();
-  api.users.getById(id).then((data) => setUser(data));
+  useEffect(() => {
+    api.users.getById(id).then((data) => setUser(data));
+  }, []);
 
   const history = useHistory();
   const handleReturn = () => history.push('/users');
