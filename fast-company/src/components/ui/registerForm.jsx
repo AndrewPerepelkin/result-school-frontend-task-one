@@ -17,31 +17,71 @@ const RegisterForm = () => {
     licence: false
   });
   const [errors, setErrors] = useState({});
-  const [professions, setProfessions] = useState();
-  const [qualities, setQualities] = useState({});
+  const [professions, setProfessions] = useState([]);
+  const [qualities, setQualities] = useState([]);
 
   useEffect(() => {
     validate();
   }, [data]);
 
-  useEffect(
-    () =>
-      setProfessions(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-        api.qualities.fetchAll().then((data) => setQualities(data));
-      }),
-    []
-  );
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => {
+      const professionsList = Object.keys(data).map((professionName) => ({
+        label: data[professionName].name,
+        value: data[professionName]._id
+      }));
+      setProfessions(professionsList);
+    });
+
+    api.qualities.fetchAll().then((data) => {
+      const QualitiesList = Object.keys(data).map((optionName) => ({
+        label: data[optionName].name,
+        value: data[optionName]._id,
+        color: data[optionName].color
+      }));
+      setQualities(QualitiesList);
+    });
+  }, []);
 
   const handleChange = (target) => {
     setData((prevState) => ({...prevState, [target.name]: target.value}));
+  };
+
+  const getProfessionById = (id) => {
+    for (const prof of professions) {
+      if (prof.value === id) {
+        return {_id: prof.value, name: prof.label};
+      }
+    }
+  };
+
+  const getQualities = (elements) => {
+    const qualitiesArray = [];
+    for (const elem of elements) {
+      for (const qual in qualities) {
+        if (elem.value === qualities[qual].value) {
+          qualitiesArray.push({
+            _id: qualities[qual].value,
+            name: qualities[qual].label,
+            color: qualities[qual].color
+          });
+        }
+      }
+    }
+    return qualitiesArray;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    console.log(data);
+
+    const {profession, qualities} = data;
+    console.log({
+      ...data,
+      profession: getProfessionById(profession),
+      qualities: getQualities(qualities)
+    });
   };
 
   const validatorConfig = {

@@ -14,16 +14,24 @@ const SelectField = ({
   const handleChange = ({target}) => {
     onChange({name: target.name, value: target.value});
   };
+
   const getSelectClasses = () => {
     return 'form-select' + (error ? ' is-invalid' : ' mb-4');
   };
+
   const optionsArray =
     !Array.isArray(options) && typeof options === 'object'
-      ? Object.keys(options).map((optionName) => ({
-          name: options[optionName].name,
-          _id: options[optionName]._id
-        }))
+      ? Object.values(options)
       : options;
+
+  // const optionsArray =
+  //   !Array.isArray(options) && typeof options === 'object'
+  //     ? Object.keys(options).map((optionName) => ({
+  //         name: options[optionName].name,
+  //         _id: options[optionName]._id
+  //       }))
+  //     : options;
+
   return (
     <>
       <label
@@ -42,17 +50,16 @@ const SelectField = ({
         <option
           disabled
           value=''
-          key={'123'}
         >
           {defaultOption}
         </option>
-        {optionsArray &&
+        {optionsArray.length > 0 &&
           optionsArray.map((option) => (
             <option
-              key={option._id}
-              value={option._id}
+              key={option.value}
+              value={option.value}
             >
-              {option.name}
+              {option.label}
             </option>
           ))}
       </select>
