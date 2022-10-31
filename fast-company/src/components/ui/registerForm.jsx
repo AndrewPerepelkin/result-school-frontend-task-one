@@ -5,6 +5,7 @@ import api from '../../api/';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
+import CheckBoxField from '../common/form/CheckBoxField';
 
 const RegisterForm = () => {
   const [data, setData] = useState({
@@ -12,7 +13,8 @@ const RegisterForm = () => {
     password: '',
     profession: '',
     sex: 'male',
-    qualities: []
+    qualities: [],
+    licence: false
   });
   const [errors, setErrors] = useState({});
   const [professions, setProfessions] = useState();
@@ -70,6 +72,12 @@ const RegisterForm = () => {
       isRequired: {
         message: 'Обязательно выберете Вашу профессию'
       }
+    },
+    licence: {
+      isRequired: {
+        message:
+          'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
+      }
     }
   };
 
@@ -84,14 +92,14 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <TextField
-        label={'Электронная почта'}
+        label={'Электронная почта:'}
         name={'email'}
         value={data.email}
         onChange={handleChange}
         error={errors.email}
       />
       <TextField
-        label={'Пароль'}
+        label={'Пароль:'}
         type={'password'}
         name={'password'}
         value={data.password}
@@ -99,7 +107,7 @@ const RegisterForm = () => {
         error={errors.password}
       />
       <SelectField
-        label='Ваша профессия'
+        label='Ваша профессия:'
         name='profession'
         id='validationCustom04'
         value={data.profession}
@@ -116,14 +124,22 @@ const RegisterForm = () => {
         value={data.sex}
         name='sex'
         onChange={handleChange}
-        label='Укажите Ваш пол'
+        label='Укажите Ваш пол:'
       />
       <MultiSelectField
         name='qualities'
         options={qualities}
         onChange={handleChange}
-        label='Выберите качества'
+        label='Выберите качества:'
       />
+      <CheckBoxField
+        value={data.licence}
+        onChange={handleChange}
+        name='licence'
+        error={errors.licence}
+      >
+        Подтвердить <a href='#'>Лицензионное соглашение</a>
+      </CheckBoxField>
       <button
         type='submit'
         disabled={!isValid}
