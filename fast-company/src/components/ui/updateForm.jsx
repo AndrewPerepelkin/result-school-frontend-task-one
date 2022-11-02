@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import TextField from '../common/form/textField';
 import SelectField from '../common/form/selectField';
@@ -7,7 +7,7 @@ import MultiSelectField from '../common/form/multiSelectField';
 import api from '../../api/';
 import {useHistory} from 'react-router-dom';
 
-const UpdateForm = ({user}) => {
+const UpdateForm = ({user, professions, qualities}) => {
   const getDefaultQualities = (data) => {
     const QualitiesList = Object.keys(data).map((optionName) => ({
       label: data[optionName].name,
@@ -28,28 +28,8 @@ const UpdateForm = ({user}) => {
     sex: user.sex,
     qualities: getDefaultQualities(user.qualities)
   });
-  const [professions, setProfessions] = useState([]);
-  const [qualities, setQualities] = useState([]);
+
   const history = useHistory();
-
-  useEffect(() => {
-    api.professions.fetchAll().then((data) => {
-      const professionsList = Object.keys(data).map((professionName) => ({
-        label: data[professionName].name,
-        value: data[professionName]._id
-      }));
-      setProfessions(professionsList);
-    });
-
-    api.qualities.fetchAll().then((data) => {
-      const QualitiesList = Object.keys(data).map((optionName) => ({
-        label: data[optionName].name,
-        value: data[optionName]._id,
-        color: data[optionName].color
-      }));
-      setQualities(QualitiesList);
-    });
-  }, []);
 
   const handleChange = (target) => {
     setData((prevState) => ({...prevState, [target.name]: target.value}));
@@ -159,7 +139,9 @@ const UpdateForm = ({user}) => {
 };
 
 UpdateForm.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  professions: PropTypes.object,
+  qualities: PropTypes.object
 };
 
 export default UpdateForm;

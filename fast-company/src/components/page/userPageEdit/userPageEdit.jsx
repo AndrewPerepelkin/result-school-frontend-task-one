@@ -5,9 +5,28 @@ import UpdateForm from '../../ui/updateForm';
 
 const UserPageEdit = ({userId}) => {
   const [user, setUser] = useState();
+  const [professions, setProfessions] = useState([]);
+  const [qualities, setQualities] = useState([]);
 
   useEffect(() => {
     api.users.getById(userId).then((data) => setUser(data));
+
+    api.professions.fetchAll().then((data) => {
+      const professionsList = Object.keys(data).map((professionName) => ({
+        label: data[professionName].name,
+        value: data[professionName]._id
+      }));
+      setProfessions(professionsList);
+    });
+
+    api.qualities.fetchAll().then((data) => {
+      const QualitiesList = Object.keys(data).map((optionName) => ({
+        label: data[optionName].name,
+        value: data[optionName]._id,
+        color: data[optionName].color
+      }));
+      setQualities(QualitiesList);
+    });
   }, []);
 
   return (
@@ -21,7 +40,11 @@ const UserPageEdit = ({userId}) => {
                   Изменение данных пользователя
                 </h3>
 
-                <UpdateForm user={user} />
+                <UpdateForm
+                  user={user}
+                  professions={professions}
+                  qualities={qualities}
+                />
               </>
             ) : (
               <div className='text-center mb-4'>Загрузка...</div>
