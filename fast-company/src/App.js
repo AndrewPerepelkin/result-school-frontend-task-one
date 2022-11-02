@@ -15,7 +15,7 @@ const App = () => {
           component={Login}
         />
         <Route
-          path='/users/:userId?'
+          path='/users/:userId?/:edit?'
           component={Users}
         />
         <Route
