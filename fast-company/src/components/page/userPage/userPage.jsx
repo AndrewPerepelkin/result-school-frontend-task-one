@@ -12,7 +12,7 @@ const UserPage = ({id}) => {
 
   const history = useHistory();
   const handleReturn = () => history.push('/users');
-  const handleEdit = () => history.push(`/users/${id}/edit`);
+  const handleEdit = () => history.push(history.location.pathname + '/edit');
 
   return (
     <div className='m-3'>
