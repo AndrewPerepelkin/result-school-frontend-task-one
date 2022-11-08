@@ -124,7 +124,7 @@ const UpdateForm = ({user, professions, qualities}) => {
           // disabled={!isValid}
           className='btn btn-primary w-100 mx-auto mb-2'
         >
-          Обновить
+          Сохранить
         </button>
         <button
           type='button'
@@ -140,8 +140,8 @@ const UpdateForm = ({user, professions, qualities}) => {
 
 UpdateForm.propTypes = {
   user: PropTypes.object,
-  professions: PropTypes.object,
-  qualities: PropTypes.object
+  professions: PropTypes.array,
+  qualities: PropTypes.array
 };
 
 export default UpdateForm;
