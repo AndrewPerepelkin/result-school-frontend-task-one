@@ -4,11 +4,13 @@ import api from '../../../api';
 import UpdateForm from '../../ui/updateForm';
 
 const UserPageEdit = ({userId}) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [professions, setProfessions] = useState([]);
   const [qualities, setQualities] = useState([]);
+  const [isLoadind, setIsLoadind] = useState(false);
 
   useEffect(() => {
+    setIsLoadind(true);
     api.users.getById(userId).then((data) => setUser(data));
 
     api.professions.fetchAll().then((data) => {
@@ -28,13 +30,16 @@ const UserPageEdit = ({userId}) => {
       setQualities(QualitiesList);
     });
   }, []);
+  useEffect(() => {
+    if (user._id) setIsLoadind(false);
+  }, [user]);
 
   return (
     <>
       <div className='container mt-5'>
         <div className='row'>
           <div className='col-md-6 offset-md-3 shadow p-4'>
-            {user ? (
+            {!isLoadind && professions.length > 0 ? (
               <>
                 <h3 className='text-center mb-4'>
                   Изменение данных пользователя
