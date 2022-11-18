@@ -23,7 +23,7 @@ const GroupList = ({
             >
               {item[contentProperty]}
             </li>
-        ))
+          ))
         : Object.keys(items).map((item) => (
             <li
               key={items[item][valueProperty]}
@@ -36,7 +36,7 @@ const GroupList = ({
             >
               {items[item][contentProperty]}
             </li>
-        ))}
+          ))}
     </ul>
   );
 };
