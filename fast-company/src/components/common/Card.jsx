@@ -3,10 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 const CardWrapper = ({children, extraСardBodyStyle}) => {
   return (
-    <div className='card mt-3'>
+    <div className='card mb-3'>
       <div
         className={
-          'card-body' + extraСardBodyStyle ? ' ' + extraСardBodyStyle : ''
+          'card-body' + (extraСardBodyStyle ? ' ' + extraСardBodyStyle : '')
         }
       >
         {children}
