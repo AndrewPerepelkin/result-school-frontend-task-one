@@ -5,10 +5,11 @@ import SelectField from '../../../common/form/selectField';
 import TextAreaField from '../../../common/form/textAreaField';
 import PropTypes from 'prop-types';
 
+const initialData = {userId: '', content: ''};
+
 const AddCommentsForm = ({onSubmit}) => {
   const [usersNames, setUsersNames] = useState([]);
   const [errors, setErrors] = useState({});
-  const initialData = {userId: '', content: ''};
   const [data, setData] = useState(initialData);
 
   useEffect(() => {
@@ -21,10 +22,6 @@ const AddCommentsForm = ({onSubmit}) => {
     });
   }, []);
 
-  useEffect(() => {
-    validate();
-  }, [data]);
-
   const handleChange = (target) => {
     setData((prevState) => ({...prevState, [target.name]: target.value}));
   };
@@ -33,8 +30,9 @@ const AddCommentsForm = ({onSubmit}) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    setData(initialData);
     onSubmit(data);
+    setData(initialData);
+    setErrors({});
   };
 
   const validatorConfig = {
@@ -56,8 +54,6 @@ const AddCommentsForm = ({onSubmit}) => {
     return Object.keys(errors).length === 0;
   };
 
-  const isValid = Object.keys(errors).length === 0;
-
   return (
     <>
       <h2>New comment</h2>
@@ -78,13 +74,14 @@ const AddCommentsForm = ({onSubmit}) => {
           rowsSize='3'
           error={errors.content}
         />
-        <button
-          type='submit'
-          disabled={!isValid}
-          className='btn btn-primary mt-2'
-        >
-          Опубликовать
-        </button>
+        <div className='d-flex justify-content-end'>
+          <button
+            type='submit'
+            className='btn btn-primary mt-2'
+          >
+            Опубликовать
+          </button>
+        </div>
       </form>
     </>
   );
