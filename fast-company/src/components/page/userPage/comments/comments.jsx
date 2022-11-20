@@ -22,7 +22,11 @@ const Comments = () => {
   };
 
   const handleRemoveComment = (id) => {
-    api.comments.remove(id).then((data) => setComments(data));
+    api.comments
+      .remove(id)
+      .then((id) =>
+        setComments(comments.filter((commemt) => commemt._id !== id))
+      );
   };
 
   const sortedComments = orderBy(comments, ['created_at'], ['desc']);
