@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import API from '../../../../api';
+import api from '../../../../api';
 
 const Comment = ({userId, created_at: time, _id, content, onRemove}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -8,7 +8,7 @@ const Comment = ({userId, created_at: time, _id, content, onRemove}) => {
 
   useEffect(() => {
     setIsLoading(true);
-    API.users.getById(userId).then((data) => {
+    api.users.getById(userId).then((data) => {
       setUser(data);
       setIsLoading(false);
     });
@@ -67,8 +67,8 @@ const Comment = ({userId, created_at: time, _id, content, onRemove}) => {
                 <div className='mb-4'>
                   <div className='d-flex justify-content-between align-items-center'>
                     <p className='mb-1 '>
-                      {user ? user.name : ' '}{' '}
-                      <span className='small'>{getCommentTime(time)}</span>
+                      {user ? user.name : ' '}
+                      <span className='small'> - {getCommentTime(time)}</span>
                     </p>
                     <button
                       className='btn btn-sm text-primary d-flex align-items-center'
