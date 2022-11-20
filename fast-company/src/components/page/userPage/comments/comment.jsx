@@ -14,8 +14,8 @@ const Comment = ({userId, created_at: time, _id, content, onRemove}) => {
     });
   }, []);
 
-  const getCommentTime = (timstamp) => {
-    const date = new Date(parseInt(timstamp));
+  const getCommentTime = (timestamp) => {
+    const date = new Date(parseInt(timestamp));
     const now = new Date();
     const yearDif = now.getFullYear() - date.getFullYear();
     if (yearDif === 0) {
