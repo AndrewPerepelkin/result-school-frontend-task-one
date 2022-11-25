@@ -4,6 +4,7 @@ import NavBar from './components/ui/navBar';
 import Users from './layouts/users';
 import Login from './layouts/login';
 import Main from './layouts/main';
+import {ToastContainer} from 'react-toastify';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         />
         <Redirect to='/' />
       </Switch>
+      <ToastContainer />
     </>
   );
 };
