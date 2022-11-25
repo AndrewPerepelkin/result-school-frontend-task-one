@@ -7,8 +7,8 @@ const QualitiesList = ({qualities}) => {
     <>
       {qualities.map((q) => (
         <Qualitie
-          key={q._id}
-          {...q}
+          key={q}
+          id={q}
         />
       ))}
     </>
@@ -16,7 +16,7 @@ const QualitiesList = ({qualities}) => {
 };
 
 QualitiesList.propTypes = {
-  qualities: PropTypes.array
+  qualities: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default QualitiesList;
