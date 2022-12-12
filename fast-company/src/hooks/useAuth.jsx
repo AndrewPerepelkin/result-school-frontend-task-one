@@ -15,6 +15,10 @@ export const AuthProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState({});
   const [error, setError] = useState(null);
 
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   async function signUp({email, password, ...rest}) {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
     try {
@@ -24,7 +28,13 @@ export const AuthProvider = ({children}) => {
         returnSecureToken: true
       });
       setTokens(data);
-      createUser({_id: data.localId, email, ...rest});
+      createUser({
+        _id: data.localId,
+        email,
+        rate: getRandomInt(1, 5),
+        completedMeetings: getRandomInt(0, 200),
+        ...rest
+      });
       console.log(data);
     } catch (error) {
       errorCatcher(error);
@@ -43,7 +53,8 @@ export const AuthProvider = ({children}) => {
 
   async function createUser(data) {
     try {
-      const {content} = userService.create(data);
+      const {content} = await userService.create(data);
+      console.log(content);
       setCurrentUser(content);
     } catch (error) {
       errorCatcher(error);
