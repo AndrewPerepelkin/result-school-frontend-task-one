@@ -7,10 +7,10 @@ const UserPageEdit = ({userId}) => {
   const [user, setUser] = useState({});
   const [professions, setProfessions] = useState([]);
   const [qualities, setQualities] = useState([]);
-  const [isLoadind, setIsLoadind] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoadind(true);
+    setIsLoading(true);
     api.users.getById(userId).then((data) => setUser(data));
 
     api.professions.fetchAll().then((data) => {
@@ -31,7 +31,7 @@ const UserPageEdit = ({userId}) => {
     });
   }, []);
   useEffect(() => {
-    if (user._id) setIsLoadind(false);
+    if (user?._id) setIsLoading(false);
   }, [user]);
 
   return (
@@ -39,7 +39,7 @@ const UserPageEdit = ({userId}) => {
       <div className='container mt-5'>
         <div className='row'>
           <div className='col-md-6 offset-md-3 shadow p-4'>
-            {!isLoadind && professions.length > 0 ? (
+            {!isLoading && professions.length > 0 ? (
               <>
                 <h3 className='text-center mb-4'>
                   Изменение данных пользователя

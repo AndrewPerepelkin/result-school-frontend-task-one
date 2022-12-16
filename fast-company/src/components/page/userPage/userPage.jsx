@@ -1,18 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import api from '../../../api';
-
+import React from 'react';
 import PropTypes from 'prop-types';
 import ContainerWrapper from '../../common/container';
 import UserCard from './userCard';
 import QualitiesCard from './qualitiesCard';
 import MeetingsCard from './meetingsCard';
 import Comments from './comments/comments';
+import {useUsers} from '../../../hooks/useUsers';
+import {CommentsProvider} from '../../../hooks/useComments';
 
 const UserPage = ({id}) => {
-  const [user, setUser] = useState();
-  useEffect(() => {
-    api.users.getById(id).then((data) => setUser(data));
-  }, []);
+  const {getUserById} = useUsers();
+  const user = getUserById(id);
 
   return (
     <ContainerWrapper>
@@ -24,12 +22,16 @@ const UserPage = ({id}) => {
                 userName={user.name}
                 professionName={user.profession.name}
                 rate={user.rate}
+                image={user.image}
+                userId={user._id}
               />
               <QualitiesCard qualities={user.qualities} />
               <MeetingsCard completedMeetings={user.completedMeetings} />
             </div>
             <div className='col-md-8'>
-              <Comments />
+              <CommentsProvider>
+                <Comments />
+              </CommentsProvider>
             </div>
           </>
         ) : (
