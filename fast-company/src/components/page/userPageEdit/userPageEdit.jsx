@@ -1,35 +1,40 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import api from '../../../api';
 import UpdateForm from '../../ui/updateForm';
+import {useUsers} from '../../../hooks/useUsers';
+import {useQualities} from '../../../hooks/useQualities';
+import {useProfession} from '../../../hooks/useProfession';
+import {useHistory, useParams} from 'react-router-dom';
+import {useAuth} from '../../../hooks/useAuth';
 
 const UserPageEdit = ({userId}) => {
-  const [user, setUser] = useState({});
-  const [professions, setProfessions] = useState([]);
-  const [qualities, setQualities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
+  const {edit} = useParams();
+  const {currentUser} = useAuth();
 
   useEffect(() => {
-    setIsLoading(true);
-    api.users.getById(userId).then((data) => setUser(data));
-
-    api.professions.fetchAll().then((data) => {
-      const professionsList = Object.keys(data).map((professionName) => ({
-        label: data[professionName].name,
-        value: data[professionName]._id
-      }));
-      setProfessions(professionsList);
-    });
-
-    api.qualities.fetchAll().then((data) => {
-      const QualitiesList = Object.keys(data).map((optionName) => ({
-        label: data[optionName].name,
-        value: data[optionName]._id,
-        color: data[optionName].color
-      }));
-      setQualities(QualitiesList);
-    });
+    if (edit && userId !== currentUser._id) {
+      history.replace(`/users/${currentUser._id}/edit`);
+    }
   }, []);
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const {getUserById} = useUsers();
+  const user = getUserById(userId);
+
+  const {qualities} = useQualities();
+  const qualitiesList = qualities.map((qual) => ({
+    label: qual.name,
+    value: qual._id,
+    color: qual.color
+  }));
+  const {professions} = useProfession();
+  const professionsList = professions.map((prof) => ({
+    label: prof.name,
+    value: prof._id
+  }));
+
   useEffect(() => {
     if (user?._id) setIsLoading(false);
   }, [user]);
@@ -47,8 +52,8 @@ const UserPageEdit = ({userId}) => {
 
                 <UpdateForm
                   user={user}
-                  professions={professions}
-                  qualities={qualities}
+                  professions={professionsList}
+                  qualities={qualitiesList}
                 />
               </>
             ) : (

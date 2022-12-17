@@ -42,7 +42,7 @@ export const ProfessionProvider = ({children}) => {
 
   return (
     <ProfessionContext.Provider value={{professions, isLoading, getProfession}}>
-      {children}
+      {!isLoading ? children : 'Загрузка...'}
     </ProfessionContext.Provider>
   );
 };
