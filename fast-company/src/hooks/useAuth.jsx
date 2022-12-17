@@ -120,7 +120,6 @@ export const AuthProvider = ({children}) => {
     try {
       setLoading(true);
       const {content} = await userService.updateUser(data);
-      console.log(content);
       setCurrentUser(content);
     } catch (error) {
       errorCatcher(error);
