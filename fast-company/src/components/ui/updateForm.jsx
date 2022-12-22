@@ -76,7 +76,7 @@ const UpdateForm = ({user, professions, qualities}) => {
 
   const getQualities = (elements) => elements.map((q) => q.value);
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
@@ -87,7 +87,7 @@ const UpdateForm = ({user, professions, qualities}) => {
       ...data,
       qualities: getQualities(qualities)
     };
-    updateUser(updatedData);
+    await updateUser(updatedData);
     history.push(`/users/${user._id}`);
   };
 
