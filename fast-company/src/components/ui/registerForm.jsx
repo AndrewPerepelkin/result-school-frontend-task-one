@@ -19,7 +19,7 @@ const RegisterForm = () => {
     profession: '',
     sex: 'male',
     qualities: [],
-    licence: false
+    license: false
   });
   const {signUp} = useAuth();
   const [errors, setErrors] = useState({});
@@ -73,7 +73,7 @@ const RegisterForm = () => {
         message: 'Это поле обязательно для заполнения'
       },
       min: {
-        message: 'Имя должено состоять минимум из 3 символов',
+        message: 'Имя должно состоять минимум из 3 символов',
         value: 3
       }
     },
@@ -82,10 +82,10 @@ const RegisterForm = () => {
         message: 'Это поле обязательно для заполнения'
       },
       containsCapitalCharacter: {
-        message: 'Пароль должен сождержать хатя бы одну заглавную букву'
+        message: 'Пароль должен содержать хотя бы одну заглавную букву'
       },
       containsDigit: {
-        message: 'Пароль должен сождержать хатя бы одну цифру'
+        message: 'Пароль должен содержать хотя бы одну цифру'
       },
       min: {
         message: 'Пароль должен состоять минимум из 8 символов',
@@ -97,7 +97,7 @@ const RegisterForm = () => {
         message: 'Обязательно выберете Вашу профессию'
       }
     },
-    licence: {
+    license: {
       isRequired: {
         message:
           'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
@@ -164,10 +164,10 @@ const RegisterForm = () => {
         defaultValue={data.qualities}
       />
       <CheckBoxField
-        value={data.licence}
+        value={data.license}
         onChange={handleChange}
-        name='licence'
-        error={errors.licence}
+        name='license'
+        error={errors.license}
       >
         Подтвердить <a href='#'>Лицензионное соглашение</a>
       </CheckBoxField>
