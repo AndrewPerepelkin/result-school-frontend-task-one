@@ -11,21 +11,21 @@ const UserPageEdit = ({userId}) => {
   const {getUserById} = useUsers();
   const user = getUserById(userId);
 
-  const {qualities} = useQualities();
+  const {qualities, isLoading: isLoadingQual} = useQualities();
   const qualitiesList = qualities.map((qual) => ({
     label: qual.name,
     value: qual._id,
     color: qual.color
   }));
-  const {professions} = useProfession();
+  const {professions, isLoading: isLoadingProf} = useProfession();
   const professionsList = professions.map((prof) => ({
     label: prof.name,
     value: prof._id
   }));
 
   useEffect(() => {
-    if (user?._id) setIsLoading(false);
-  }, [user]);
+    if (!isLoadingQual && !isLoadingProf && user?._id) setIsLoading(false);
+  }, [isLoadingQual, isLoadingProf, user]);
 
   return (
     <>

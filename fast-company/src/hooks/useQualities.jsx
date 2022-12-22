@@ -42,7 +42,7 @@ export const QualitiesProvider = ({children}) => {
 
   return (
     <QualitiesContext.Provider value={{qualities, isLoading, getQuality}}>
-      {!isLoading ? children : 'Загрузка...'}
+      {children}
     </QualitiesContext.Provider>
   );
 };
