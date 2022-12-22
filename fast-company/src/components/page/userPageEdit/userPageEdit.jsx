@@ -1,45 +1,38 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import api from '../../../api';
 import UpdateForm from '../../ui/updateForm';
+import {useUsers} from '../../../hooks/useUsers';
+import {useQualities} from '../../../hooks/useQualities';
+import {useProfession} from '../../../hooks/useProfession';
 
 const UserPageEdit = ({userId}) => {
-  const [user, setUser] = useState({});
-  const [professions, setProfessions] = useState([]);
-  const [qualities, setQualities] = useState([]);
-  const [isLoadind, setIsLoadind] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const {getUserById} = useUsers();
+  const user = getUserById(userId);
+
+  const {qualities, isLoading: isLoadingQual} = useQualities();
+  const qualitiesList = qualities.map((qual) => ({
+    label: qual.name,
+    value: qual._id,
+    color: qual.color
+  }));
+  const {professions, isLoading: isLoadingProf} = useProfession();
+  const professionsList = professions.map((prof) => ({
+    label: prof.name,
+    value: prof._id
+  }));
 
   useEffect(() => {
-    setIsLoadind(true);
-    api.users.getById(userId).then((data) => setUser(data));
-
-    api.professions.fetchAll().then((data) => {
-      const professionsList = Object.keys(data).map((professionName) => ({
-        label: data[professionName].name,
-        value: data[professionName]._id
-      }));
-      setProfessions(professionsList);
-    });
-
-    api.qualities.fetchAll().then((data) => {
-      const QualitiesList = Object.keys(data).map((optionName) => ({
-        label: data[optionName].name,
-        value: data[optionName]._id,
-        color: data[optionName].color
-      }));
-      setQualities(QualitiesList);
-    });
-  }, []);
-  useEffect(() => {
-    if (user._id) setIsLoadind(false);
-  }, [user]);
+    if (!isLoadingQual && !isLoadingProf && user?._id) setIsLoading(false);
+  }, [isLoadingQual, isLoadingProf, user]);
 
   return (
     <>
       <div className='container mt-5'>
         <div className='row'>
           <div className='col-md-6 offset-md-3 shadow p-4'>
-            {!isLoadind && professions.length > 0 ? (
+            {!isLoading && professions.length > 0 ? (
               <>
                 <h3 className='text-center mb-4'>
                   Изменение данных пользователя
@@ -47,8 +40,8 @@ const UserPageEdit = ({userId}) => {
 
                 <UpdateForm
                   user={user}
-                  professions={professions}
-                  qualities={qualities}
+                  professions={professionsList}
+                  qualities={qualitiesList}
                 />
               </>
             ) : (

@@ -25,7 +25,9 @@ const LoginForm = () => {
     if (!isValid) return;
     try {
       await signIn(data);
-      history.push('/');
+      history.push(
+        history.location.state ? history.location.state.from.pathname : '/'
+      );
     } catch (error) {
       setErrors(error);
     }
@@ -45,10 +47,10 @@ const LoginForm = () => {
         message: 'Это поле обязательно для заполнения'
       },
       containsCapitalCharacter: {
-        message: 'Пароль должен сождержать хатя бы одну заглавную букву'
+        message: 'Пароль должен содержать хотя бы одну заглавную букву'
       },
       containsDigit: {
-        message: 'Пароль должен сождержать хатя бы одну цифру'
+        message: 'Пароль должен содержать хотя бы одну цифру'
       },
       min: {
         message: 'Пароль должен состоять минимум из 8 символов',

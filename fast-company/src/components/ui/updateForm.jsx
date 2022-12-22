@@ -1,74 +1,93 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import TextField from '../common/form/textField';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
-import api from '../../api/';
 import {useHistory} from 'react-router-dom';
+import {useQualities} from '../../hooks/useQualities';
+import {useAuth} from '../../hooks/useAuth';
+import {validator} from '../../utils/validator';
 
 const UpdateForm = ({user, professions, qualities}) => {
-  const getDefaultQualities = (data) => {
-    const QualitiesList = Object.keys(data).map((optionName) => ({
-      label: data[optionName].name,
-      value: data[optionName]._id,
-      color: data[optionName].color
-    }));
-    return QualitiesList;
-  };
+  const {updateUser} = useAuth();
+  const {getQuality} = useQualities();
+  const history = useHistory();
 
-  const getDefaultProfession = (data) => {
-    return data._id;
+  const getDefaultQualities = (data) => {
+    const qualitiesList = data.map((id) => {
+      const qual = getQuality(id);
+      return {
+        value: qual._id,
+        label: qual.name,
+        color: qual.color
+      };
+    });
+    return qualitiesList;
   };
 
   const [data, setData] = useState({
     email: user.email,
     name: user.name,
-    profession: getDefaultProfession(user.profession),
+    profession: user.profession,
     sex: user.sex,
     qualities: getDefaultQualities(user.qualities)
   });
+  const [errors, setErrors] = useState({});
 
-  const history = useHistory();
+  const validate = () => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  useEffect(() => {
+    validate();
+  }, [data]);
+
+  const validatorConfig = {
+    email: {
+      isRequired: {
+        message: 'Это поле обязательно для заполнения'
+      },
+      isEmail: {
+        message: 'Введен некорректный адрес электронной почты'
+      }
+    },
+    name: {
+      isRequired: {
+        message: 'Это поле обязательно для заполнения'
+      },
+      min: {
+        message: 'Имя должно состоять минимум из 3 символов',
+        value: 3
+      }
+    },
+    profession: {
+      isRequired: {
+        message: 'Обязательно выберете Вашу профессию'
+      }
+    }
+  };
 
   const handleChange = (target) => {
     setData((prevState) => ({...prevState, [target.name]: target.value}));
   };
 
-  const getProfessionById = (id) => {
-    for (const prof of professions) {
-      if (prof.value === id) {
-        return {_id: prof.value, name: prof.label};
-      }
-    }
-  };
+  const getQualities = (elements) => elements.map((q) => q.value);
 
-  const getQualities = (elements) => {
-    const qualitiesArray = [];
-    for (const elem of elements) {
-      for (const qual in qualities) {
-        if (elem.value === qualities[qual].value) {
-          qualitiesArray.push({
-            _id: qualities[qual].value,
-            name: qualities[qual].label,
-            color: qualities[qual].color
-          });
-        }
-      }
-    }
-    return qualitiesArray;
-  };
-
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    const {profession, qualities} = data;
+    const isValid = validate();
+    if (!isValid) return;
+
+    const {qualities} = data;
     const updatedData = {
       ...user,
       ...data,
-      profession: getProfessionById(profession),
       qualities: getQualities(qualities)
     };
-    api.users.update(user._id, updatedData);
+    await updateUser(updatedData);
     history.push(`/users/${user._id}`);
   };
 
@@ -83,14 +102,14 @@ const UpdateForm = ({user, professions, qualities}) => {
         name={'name'}
         value={data.name}
         onChange={handleChange}
-        // error={errors.email}
+        error={errors.name}
       />
       <TextField
         label={'Электронная почта:'}
         name={'email'}
         value={data.email}
         onChange={handleChange}
-        // error={errors.email}
+        error={errors.email}
       />
       <SelectField
         label='Выберите профессию:'
@@ -99,7 +118,7 @@ const UpdateForm = ({user, professions, qualities}) => {
         defaultOption='Выберите профессию...'
         onChange={handleChange}
         options={professions}
-        // error={errors.profession}
+        error={errors.profession}
       />
       <RadioField
         options={[

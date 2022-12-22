@@ -18,6 +18,14 @@ module.exports = {
     ],
     'multiline-ternary': 0,
     'object-curly-spacing': ['error', 'never'],
-    indent: 0
+    indent: 0,
+    quotes: [
+      'error',
+      'single',
+      {
+        allowTemplateLiterals: true,
+        avoidEscape: true
+      }
+    ]
   }
 };

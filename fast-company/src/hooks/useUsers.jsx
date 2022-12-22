@@ -31,13 +31,15 @@ export const UsersProvider = ({children}) => {
     }
   };
 
+  const getUserById = (userId) => users.find((u) => u._id === userId);
+
   const errorCatcher = (error) => {
     const {message} = error.response.data;
     setError(message);
   };
 
   return (
-    <UsersContext.Provider value={{users}}>
+    <UsersContext.Provider value={{users, getUserById}}>
       {!isLoading ? children : 'Загрузка...'}
     </UsersContext.Provider>
   );
