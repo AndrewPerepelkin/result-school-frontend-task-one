@@ -4,20 +4,8 @@ import UpdateForm from '../../ui/updateForm';
 import {useUsers} from '../../../hooks/useUsers';
 import {useQualities} from '../../../hooks/useQualities';
 import {useProfession} from '../../../hooks/useProfession';
-import {useHistory, useParams} from 'react-router-dom';
-import {useAuth} from '../../../hooks/useAuth';
 
 const UserPageEdit = ({userId}) => {
-  const history = useHistory();
-  const {edit} = useParams();
-  const {currentUser} = useAuth();
-
-  useEffect(() => {
-    if (edit && userId !== currentUser._id) {
-      history.replace(`/users/${currentUser._id}/edit`);
-    }
-  }, []);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const {getUserById} = useUsers();
