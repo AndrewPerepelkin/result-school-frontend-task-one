@@ -2,12 +2,15 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import UpdateForm from '../../ui/updateForm';
 import {useUsers} from '../../../hooks/useUsers';
-import {useProfession} from '../../../hooks/useProfession';
 import {useSelector} from 'react-redux';
 import {
   getQualities,
   getQualitiesLoadingStatus
 } from '../../../store/qualities';
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions';
 
 const UserPageEdit = ({userId}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,15 +25,19 @@ const UserPageEdit = ({userId}) => {
     value: qual._id,
     color: qual.color
   }));
-  const {professions, isLoading: isLoadingProf} = useProfession();
+
+  const professions = useSelector(getProfessions());
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professionsList = professions.map((prof) => ({
     label: prof.name,
     value: prof._id
   }));
 
   useEffect(() => {
-    if (!qualitiesLoading && !isLoadingProf && user?._id) setIsLoading(false);
-  }, [qualitiesLoading, isLoadingProf, user]);
+    if (!qualitiesLoading && !professionsLoading && user?._id) {
+      setIsLoading(false);
+    }
+  }, [qualitiesLoading, professionsLoading, user]);
 
   return (
     <>
