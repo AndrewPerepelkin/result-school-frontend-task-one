@@ -5,26 +5,15 @@ import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import {useHistory} from 'react-router-dom';
-import {useQualities} from '../../hooks/useQualities';
 import {useAuth} from '../../hooks/useAuth';
 import {validator} from '../../utils/validator';
 
 const UpdateForm = ({user, professions, qualities}) => {
   const {updateUser} = useAuth();
-  const {getQuality} = useQualities();
   const history = useHistory();
 
-  const getDefaultQualities = (data) => {
-    const qualitiesList = data.map((id) => {
-      const qual = getQuality(id);
-      return {
-        value: qual._id,
-        label: qual.name,
-        color: qual.color
-      };
-    });
-    return qualitiesList;
-  };
+  const getDefaultQualities = (data) =>
+    data.map((id) => qualities.find((q) => q.value === id));
 
   const [data, setData] = useState({
     email: user.email,

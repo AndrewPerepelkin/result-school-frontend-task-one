@@ -2,8 +2,12 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import UpdateForm from '../../ui/updateForm';
 import {useUsers} from '../../../hooks/useUsers';
-import {useQualities} from '../../../hooks/useQualities';
 import {useProfession} from '../../../hooks/useProfession';
+import {useSelector} from 'react-redux';
+import {
+  getQualities,
+  getQualitiesLoadingStatus
+} from '../../../store/qualities';
 
 const UserPageEdit = ({userId}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +15,8 @@ const UserPageEdit = ({userId}) => {
   const {getUserById} = useUsers();
   const user = getUserById(userId);
 
-  const {qualities, isLoading: isLoadingQual} = useQualities();
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
   const qualitiesList = qualities.map((qual) => ({
     label: qual.name,
     value: qual._id,
@@ -24,8 +29,8 @@ const UserPageEdit = ({userId}) => {
   }));
 
   useEffect(() => {
-    if (!isLoadingQual && !isLoadingProf && user?._id) setIsLoading(false);
-  }, [isLoadingQual, isLoadingProf, user]);
+    if (!qualitiesLoading && !isLoadingProf && user?._id) setIsLoading(false);
+  }, [qualitiesLoading, isLoadingProf, user]);
 
   return (
     <>
