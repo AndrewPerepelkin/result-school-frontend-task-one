@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import ContainerWrapper from '../../common/container';
 import UserCard from './userCard';
 import QualitiesCard from './qualitiesCard';
 import MeetingsCard from './meetingsCard';
 import Comments from './comments/comments';
-import {useUsers} from '../../../hooks/useUsers';
 import {CommentsProvider} from '../../../hooks/useComments';
+import {getUserById} from '../../../store/users';
 
 const UserPage = ({id}) => {
-  const {getUserById} = useUsers();
-  const user = getUserById(id);
-
+  const user = useSelector(getUserById(id));
   return (
     <ContainerWrapper>
       <div className='row gutters-sm'>

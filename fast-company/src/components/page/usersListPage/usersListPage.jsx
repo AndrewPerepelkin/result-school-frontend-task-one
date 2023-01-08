@@ -7,16 +7,16 @@ import UsersTable from '../../ui/usersTable';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import TextField from '../../common/form/textField';
-import {useUsers} from '../../../hooks/useUsers';
 import {useAuth} from '../../../hooks/useAuth';
 import {useSelector} from 'react-redux';
 import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions';
+import {getUsersList} from '../../../store/users';
 
 const UsersListPage = () => {
-  const {users} = useUsers();
+  const users = useSelector(getUsersList());
   const {currentUser} = useAuth();
 
   const professions = useSelector(getProfessions());

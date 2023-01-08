@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import UpdateForm from '../../ui/updateForm';
-import {useUsers} from '../../../hooks/useUsers';
 import {useSelector} from 'react-redux';
 import {
   getQualities,
@@ -11,12 +10,12 @@ import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions';
+import {getUserById} from '../../../store/users';
 
 const UserPageEdit = ({userId}) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const {getUserById} = useUsers();
-  const user = getUserById(userId);
+  const user = useSelector(getUserById(userId));
 
   const qualities = useSelector(getQualities());
   const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
