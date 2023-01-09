@@ -119,8 +119,9 @@ export const login =
     const {email, password} = payload;
     try {
       const data = await authService.login({email, password});
-      dispatch(authRequestSuccess(data));
+      dispatch(authRequestSuccess({userId: data.localId}));
       localStorageService.setTokens(data);
+      history.push(redirect);
     } catch (error) {
       dispatch(authRequestFailed(error.message));
     }
