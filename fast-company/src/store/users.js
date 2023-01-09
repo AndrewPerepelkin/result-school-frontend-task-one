@@ -27,7 +27,7 @@ const usersSlice = createSlice({
       state.isLoading = false;
     },
     authRequestSuccess: (state, action) => {
-      state.auth = {...action.payload};
+      state.auth = action.payload;
       state.isLoggedIn = true;
     },
     authRequestFailed: (state, action) => {
@@ -126,5 +126,7 @@ export const login =
       dispatch(authRequestFailed(error.message));
     }
   };
+
+export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 
 export default usersReducer;
