@@ -34,7 +34,7 @@ const Comment = ({userId, created_at: time, _id, content, onRemove}) => {
       })}`;
     }
     return (
-      date.getFullYear() + '.' + (date.getMonth() + 1) + '_' + date.getDate()
+      date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate()
     );
   };
 
