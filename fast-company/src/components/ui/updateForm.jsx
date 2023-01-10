@@ -20,7 +20,7 @@ const UpdateForm = ({user, professions, qualities}) => {
     name: user.name,
     profession: user.profession,
     sex: user.sex,
-    qualities: getDefaultQualities(user.qualities)
+    qualities: getDefaultQualities(user.qualities ? user.qualities : [])
   });
   const [errors, setErrors] = useState({});
 
