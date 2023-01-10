@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import TextField from '../common/form/textField';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import {useHistory} from 'react-router-dom';
-import {useAuth} from '../../hooks/useAuth';
 import {validator} from '../../utils/validator';
+import {updateUser} from '../../store/users';
 
 const UpdateForm = ({user, professions, qualities}) => {
-  const {updateUser} = useAuth();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const getDefaultQualities = (data) =>
@@ -65,7 +66,7 @@ const UpdateForm = ({user, professions, qualities}) => {
 
   const getQualities = (elements) => elements.map((q) => q.value);
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
@@ -76,8 +77,7 @@ const UpdateForm = ({user, professions, qualities}) => {
       ...data,
       qualities: getQualities(qualities)
     };
-    await updateUser(updatedData);
-    history.push(`/users/${user._id}`);
+    dispatch(updateUser(updatedData));
   };
 
   const handleCancel = () => {
