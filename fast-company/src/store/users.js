@@ -2,6 +2,8 @@ import {createAction, createSlice} from '@reduxjs/toolkit';
 import authService from '../services/authService';
 import localStorageService from '../services/localStorageService';
 import userService from '../services/userService';
+import {generateAuthError} from '../utils/generateAuthError';
+import {generateRegisterError} from '../utils/generateRegisterError';
 import getRandomInt from '../utils/getRandomInt';
 import history from '../utils/history';
 
@@ -39,6 +41,9 @@ const usersSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
+    authRequested: (state) => {
+      state.error = null;
+    },
     authRequestSuccess: (state, action) => {
       state.auth = action.payload;
       state.isLoggedIn = true;
@@ -75,6 +80,7 @@ const {
   usersRequested,
   usersReceived,
   usersRequestFailed,
+  authRequested,
   authRequestSuccess,
   authRequestFailed,
   userCreated,
@@ -83,7 +89,6 @@ const {
   userLoggedOut
 } = actions;
 
-const authRequested = createAction('users/authRequested');
 const userCreateRequested = createAction('users/userCreateRequested');
 const userCreateFailed = createAction('users/userCreateFailed');
 const userUpdateRequested = createAction('users/userUpdateRequested');
@@ -146,7 +151,13 @@ export const signUp =
         })
       );
     } catch (error) {
-      dispatch(authRequestFailed(error.message));
+      const {code, message} = error.response.data.error;
+      if (code === 400) {
+        const errorMessage = generateRegisterError(message);
+        dispatch(authRequestFailed(errorMessage));
+      } else {
+        dispatch(authRequestFailed(error.message));
+      }
     }
   };
 
@@ -161,7 +172,13 @@ export const login =
       localStorageService.setTokens(data);
       history.push(redirect);
     } catch (error) {
-      dispatch(authRequestFailed(error.message));
+      const {code, message} = error.response.data.error;
+      if (code === 400) {
+        const errorMessage = generateAuthError(message);
+        dispatch(authRequestFailed(errorMessage));
+      } else {
+        dispatch(authRequestFailed(error.message));
+      }
     }
   };
 
@@ -186,5 +203,6 @@ export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getDataLoadingStatus = () => (state) => state.users.dataLoaded;
 export const getCurrentUserId = () => (state) => state.users.auth.userId;
+export const getAuthError = () => (state) => state.users.error;
 
 export default usersReducer;

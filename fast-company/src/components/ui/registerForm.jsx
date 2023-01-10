@@ -8,7 +8,7 @@ import CheckBoxField from '../common/form/CheckBoxField';
 import {useDispatch, useSelector} from 'react-redux';
 import {getQualities} from '../../store/qualities';
 import {getProfessions} from '../../store/professions';
-import {signUp} from '../../store/users';
+import {getAuthError, signUp} from '../../store/users';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const RegisterForm = () => {
     license: false
   });
   const [errors, setErrors] = useState({});
+  const authError = useSelector(getAuthError());
   const qualities = useSelector(getQualities());
 
   const qualitiesList = qualities.map((qual) => ({
@@ -166,6 +167,7 @@ const RegisterForm = () => {
       >
         Подтвердить <a href='#'>Лицензионное соглашение</a>
       </CheckBoxField>
+      {authError && <p className='text-danger'>{authError}</p>}
       <button
         type='submit'
         disabled={!isValid}
