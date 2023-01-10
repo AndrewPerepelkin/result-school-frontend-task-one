@@ -2,11 +2,12 @@ import React from 'react';
 import {useHistory} from 'react-router-dom';
 import CardWrapper from '../../common/Card';
 import PropTypes from 'prop-types';
-import {useAuth} from '../../../hooks/useAuth';
+import {useSelector} from 'react-redux';
+import {getCurrentUserId} from '../../../store/users';
 
 const UserCard = ({userName, professionName, rate, image, userId}) => {
   const history = useHistory();
-  const {currentUser} = useAuth();
+  const currentUserId = useSelector(getCurrentUserId());
   const handleEdit = () => history.push(history.location.pathname + '/edit');
 
   return (
@@ -35,7 +36,7 @@ const UserCard = ({userName, professionName, rate, image, userId}) => {
           </div>
         </div>
       </div>
-      {currentUser._id === userId && (
+      {currentUserId === userId && (
         <button
           className='position-absolute top-0 end-0 btn btn-light btn-sm'
           onClick={() => handleEdit()}

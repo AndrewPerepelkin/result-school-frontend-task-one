@@ -98,6 +98,12 @@ export const getUserById = (userId) => (state) => {
   }
 };
 
+export const getCurrentUserData = () => (state) => {
+  return state.users.entities
+    ? state.users.entities.find((u) => u._id === state.users.auth.userId)
+    : null;
+};
+
 export const signUp =
   ({email, password, ...rest}) =>
   async (dispatch) => {
