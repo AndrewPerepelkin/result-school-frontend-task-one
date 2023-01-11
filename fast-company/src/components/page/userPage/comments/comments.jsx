@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {orderBy} from 'lodash';
 import CardWrapper from '../../../common/Card';
 import Divider from '../../../common/divider';
 import CommentsForm from './addCommentsForm';
 import CommentsList from './commentsList';
 import {useComments} from '../../../../hooks/useComments';
+import {useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getComments,
+  getCommentsLoadingStatus,
+  loadCommentsList
+} from '../../../../store/comments';
 
 const Comments = () => {
-  const {createComment, deleteComment, comments} = useComments();
+  const {userId} = useParams();
+  const dispatch = useDispatch();
+  const isLoading = useSelector(getCommentsLoadingStatus());
+
+  useEffect(() => {
+    dispatch(loadCommentsList(userId));
+  }, [userId]);
+
+  const comments = useSelector(getComments());
+  const {createComment, deleteComment} = useComments();
 
   const handleSubmit = (data) => {
     createComment(data);
@@ -28,10 +44,14 @@ const Comments = () => {
         <CardWrapper>
           <h2>Comments</h2>
           <Divider />
-          <CommentsList
-            comments={sortedComments}
-            onRemove={handleRemoveComment}
-          />
+          {!isLoading ? (
+            <CommentsList
+              comments={sortedComments}
+              onRemove={handleRemoveComment}
+            />
+          ) : (
+            'Загрузка...'
+          )}
         </CardWrapper>
       )}
     </>
