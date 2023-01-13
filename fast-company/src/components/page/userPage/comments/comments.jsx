@@ -8,13 +8,17 @@ import {useComments} from '../../../../hooks/useComments';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  createComment,
   getComments,
   getCommentsLoadingStatus,
   loadCommentsList
 } from '../../../../store/comments';
+import {getCurrentUserId} from '../../../../store/users';
+import {nanoid} from '@reduxjs/toolkit';
 
 const Comments = () => {
   const {userId} = useParams();
+  const currentUserId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
   const isLoading = useSelector(getCommentsLoadingStatus());
 
@@ -23,10 +27,18 @@ const Comments = () => {
   }, [userId]);
 
   const comments = useSelector(getComments());
-  const {createComment, deleteComment} = useComments();
+  const {deleteComment} = useComments();
 
   const handleSubmit = (data) => {
-    createComment(data);
+    const comment = {
+      ...data,
+      created_at: Date.now(),
+      pageId: userId,
+      userId: currentUserId,
+      _id: nanoid()
+    };
+    dispatch(createComment(comment));
+    console.log(comment);
   };
 
   const handleRemoveComment = (id) => {

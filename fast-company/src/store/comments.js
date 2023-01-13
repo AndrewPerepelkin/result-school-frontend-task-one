@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAction, createSlice} from '@reduxjs/toolkit';
 import commentService from '../services/commentService';
 
 const commentsSlice = createSlice({
@@ -9,22 +9,39 @@ const commentsSlice = createSlice({
     error: null
   },
   reducers: {
-    commentsRequested: (store) => {
-      store.isLoading = true;
+    commentsRequested: (state) => {
+      state.isLoading = true;
     },
-    commentsReceived: (store, action) => {
-      store.entities = action.payload;
-      store.isLoading = false;
+    commentsReceived: (state, action) => {
+      state.entities = action.payload;
+      state.isLoading = false;
     },
-    commentsRequestFailed: (store, action) => {
-      store.error = action.payload;
-      store.isLoading = false;
+    commentsRequestFailed: (state, action) => {
+      state.error = action.payload;
+      state.isLoading = false;
+    },
+    commentAdded: (state, action) => {
+      if (!Array.isArray(state.entities)) {
+        state.entities = [];
+      }
+      state.entities.push(action.payload);
+    },
+    commentCreateFailed: (state, action) => {
+      state.error = action.payload;
     }
   }
 });
 
 const {reducer: commentsReducer, actions} = commentsSlice;
-const {commentsRequested, commentsReceived, commentsRequestFailed} = actions;
+const {
+  commentsRequested,
+  commentsReceived,
+  commentsRequestFailed,
+  commentAdded,
+  commentCreateFailed
+} = actions;
+
+const commentCreateRequested = createAction('comments/commentCreateRequested');
 
 export const loadCommentsList = (userId) => async (dispatch) => {
   dispatch(commentsRequested());
@@ -33,6 +50,16 @@ export const loadCommentsList = (userId) => async (dispatch) => {
     dispatch(commentsReceived(content));
   } catch (error) {
     dispatch(commentsRequestFailed(error.message));
+  }
+};
+
+export const createComment = (payload) => async (dispatch) => {
+  dispatch(commentCreateRequested());
+  try {
+    const {content} = await commentService.create(payload);
+    dispatch(commentAdded(content));
+  } catch (error) {
+    dispatch(commentCreateFailed(error.message));
   }
 };
 
