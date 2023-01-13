@@ -4,11 +4,11 @@ import CardWrapper from '../../../common/Card';
 import Divider from '../../../common/divider';
 import CommentsForm from './addCommentsForm';
 import CommentsList from './commentsList';
-import {useComments} from '../../../../hooks/useComments';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   createComment,
+  deleteComment,
   getComments,
   getCommentsLoadingStatus,
   loadCommentsList
@@ -27,7 +27,6 @@ const Comments = () => {
   }, [userId]);
 
   const comments = useSelector(getComments());
-  const {deleteComment} = useComments();
 
   const handleSubmit = (data) => {
     const comment = {
@@ -38,11 +37,10 @@ const Comments = () => {
       _id: nanoid()
     };
     dispatch(createComment(comment));
-    console.log(comment);
   };
 
   const handleRemoveComment = (id) => {
-    deleteComment(id);
+    dispatch(deleteComment(id));
   };
 
   const sortedComments = orderBy(comments, ['created_at'], ['desc']);
