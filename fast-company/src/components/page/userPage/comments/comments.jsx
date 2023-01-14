@@ -4,17 +4,21 @@ import CardWrapper from '../../../common/Card';
 import Divider from '../../../common/divider';
 import CommentsForm from './addCommentsForm';
 import CommentsList from './commentsList';
-import {useComments} from '../../../../hooks/useComments';
 import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  createComment,
+  deleteComment,
   getComments,
   getCommentsLoadingStatus,
   loadCommentsList
 } from '../../../../store/comments';
+import {getCurrentUserId} from '../../../../store/users';
+import {nanoid} from '@reduxjs/toolkit';
 
 const Comments = () => {
   const {userId} = useParams();
+  const currentUserId = useSelector(getCurrentUserId());
   const dispatch = useDispatch();
   const isLoading = useSelector(getCommentsLoadingStatus());
 
@@ -23,14 +27,20 @@ const Comments = () => {
   }, [userId]);
 
   const comments = useSelector(getComments());
-  const {createComment, deleteComment} = useComments();
 
   const handleSubmit = (data) => {
-    createComment(data);
+    const comment = {
+      ...data,
+      created_at: Date.now(),
+      pageId: userId,
+      userId: currentUserId,
+      _id: nanoid()
+    };
+    dispatch(createComment(comment));
   };
 
   const handleRemoveComment = (id) => {
-    deleteComment(id);
+    dispatch(deleteComment(id));
   };
 
   const sortedComments = orderBy(comments, ['created_at'], ['desc']);
