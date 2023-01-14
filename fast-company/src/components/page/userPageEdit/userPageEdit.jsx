@@ -1,31 +1,42 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import UpdateForm from '../../ui/updateForm';
-import {useUsers} from '../../../hooks/useUsers';
-import {useQualities} from '../../../hooks/useQualities';
-import {useProfession} from '../../../hooks/useProfession';
+import {useSelector} from 'react-redux';
+import {
+  getQualities,
+  getQualitiesLoadingStatus
+} from '../../../store/qualities';
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions';
+import {getUserById} from '../../../store/users';
 
 const UserPageEdit = ({userId}) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const {getUserById} = useUsers();
-  const user = getUserById(userId);
+  const user = useSelector(getUserById(userId));
 
-  const {qualities, isLoading: isLoadingQual} = useQualities();
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
   const qualitiesList = qualities.map((qual) => ({
     label: qual.name,
     value: qual._id,
     color: qual.color
   }));
-  const {professions, isLoading: isLoadingProf} = useProfession();
+
+  const professions = useSelector(getProfessions());
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professionsList = professions.map((prof) => ({
     label: prof.name,
     value: prof._id
   }));
 
   useEffect(() => {
-    if (!isLoadingQual && !isLoadingProf && user?._id) setIsLoading(false);
-  }, [isLoadingQual, isLoadingProf, user]);
+    if (!qualitiesLoading && !professionsLoading && user?._id) {
+      setIsLoading(false);
+    }
+  }, [qualitiesLoading, professionsLoading, user]);
 
   return (
     <>
